@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReMuda - Bazar Universitario</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --primary-hover: #1b5e20;
+            --whatsapp-color: #25D366;
+            --whatsapp-hover: #1da851;
+            --bg-color: #f4f6f0;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #a5d6a7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        nav {
+            background-color: var(--primary-hover);
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 0.8rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            font-size: 2rem;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .center-wrapper {
+            text-align: center;
+        }
+
+        /* Catálogo */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background-color: #e0e0e0;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-bottom: 1rem;
+        }
+
+        .tech-sheet {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-sheet th, .tech-sheet td {
+            border: 1px solid #e0e0e0;
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        .tech-sheet th {
+            background-color: #f0f7f0;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: auto;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp-color);
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: var(--whatsapp-hover);
+        }
+
+        /* Secciones de Formulario */
+        .form-section {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        footer {
+            background-color: var(--primary-hover);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ReMuda</h1>
+        <p>La pieza que te Faltaba</p>
+    </header>
+
+    <nav>
+        <a href="#catalogo">Catálogo de Prendas</a>
+        <a href="#catalogo">Catálogo de Accesorios</a>
+        <a href="#pedido">Realizar Pedido</a>
+        <a href="#unete">Únete a ReMuda</a>
+        <a href="#politicas">Politicas de Participacipación</a>
+
+    </nav>
+
+    <div class="container">
+
+        <a href="#catalogo">Catálogo de Prendas</a>
+            <!-- Prenda 1 -->
+            <div class="card">
+                <img src="Imagenes/Camiseta Azul.jpg" alt="Playera azul Manga 3/4">
+                <div class="card-content">
+                    <h3 class="card-title">Playera Azul Manga 3/4</h3>
+                    <div class="card-price">$130 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Playera / Camiseta de manga media (3/4)</td></tr>
+                        <tr><th>Talla</th><td>Mediana / Grande (Corte holgado / Oversized)</td></tr>
+                        <tr><th>Color</th><td>Azul Rey</td></tr>
+                        <tr><th>Estado</th><td>Excelente (Seminueva)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por valor equivalente)</td></tr>
+                        <tr><th>Material</th><td>100% Algodón Orgánico</td></tr>
+                        <tr><th>Detalles</th><td>Teñido ecológico a base de agua, libre de tóxicos</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                        <tr><th>Impacto</th><td>Ahorro de 2,700L de agua y -46% emisiones CO₂e</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarPrenda('Playera Azul Manga 3/4')">Solicitar / Intercambiar</button>
+                </div>
+            </div>
+
+            <!-- Prenda 2 -->
+            <div class="card">
+                <img src="Imagenes/Crop top.jpg" alt="Crop Top Negro">                                  
+                       <div class="card-content">
+                    <h3 class="card-title">Crop Top Negro</h3>
+                    <div class="card-price">$110 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Crop Top / Blusa corta de tirantes anchos</td></tr>
+                        <tr><th>Talla</th><td>Chica</td></tr>
+                        <tr><th>Color</th><td>Negro Profundo</td></tr>
+                        <tr><th>Estado</th><td>Excelente (Sin desgaste de color)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por valor equivalente)</td></tr>
+                        <tr><th>Material</th><td>95% Algodón Orgánico Certificado + 5% Elastano Reciclado</td></tr>
+                        <tr><th>Detalles</th><td>Cuello cuadrado estilizado; teñido sustentable</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                        <tr><th>Impacto</th><td>Reincorporación de fibras mixtas recicladas</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarPrenda('Crop Top Negro')">Solicitar / Intercambiar</button>
+                </div>
+            </div>
+
+            <!-- Prenda 3 -->
+            <div class="card">
+                <img src="Imagenes/Sudadera Gris.jpg" alt="Sudadera de Cuello Gris">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Sudadera Cuello Redondo Gris</h3>
+                    <div class="card-price">$170 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Sudadera Cuello Redondo (Crewneck)</td></tr>
+                        <tr><th>Talla</th><td>Mediana</td></tr>
+                        <tr><th>Color</th><td>Gris Jaspe</td></tr>
+                        <tr><th>Estado</th><td>Muy Bueno (Afelpado conservado)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por valor equivalente)</td></tr>
+                        <tr><th>Material</th><td>60% Algodón Reciclado Posconsumo + 40% Poliéster Reciclado</td></tr>
+                        <tr><th>Detalles</th><td>Aislamiento térmico; tejido sin tintes adicionales</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                        <tr><th>Impacto</th><td>Desvía plásticos PET y reduce 70% consumo energético</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarPrenda('Sudadera Cuello Redondo Gris')">Solicitar / Intercambiar</button>
+                </div>
+            </div>
+ 
+            <!-- Prenda 4 -->
+            <div class="card">
+                <img src="Imagenes/Camiseta de Tirantes.jpg" alt="Camiseta de tirantes floral">
+               <div class="card-content">
+                    <h3 class="card-title">Camiseta de Tirantes Floral</h3>
+                    <div class="card-price">$80 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Camiseta de tirantes (tank top)</td></tr>
+                        <tr><th>Talla</th><td>Extra Chica</td></tr>
+                        <tr><th>Color</th><td>Gris con estampado floral</td></tr>
+                        <tr><th>Estado</th><td>Bueno (Sin manchas,roturas ni signos fuetes de desgaste)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por algo de mi interés de igual valor)</td></tr>
+                        <tr><th>Material</th><td>Mezcla de Algodón Orgánico y Viscosa Sostenible</td></tr>
+                        <tr><th>Detalles</th><td>Tirantes con dobladillo fino; estampado con pigmentos de bajo impacto ambiental y bajo consumo hídrico</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                        <tr><th>Impacto</th><td>La reutilización de esta prenda ligera permite mitigar la huella hídrica asociada a la producción de algodón fresco</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarPrenda('Camiseta de tirantes floral')">Solicitar / Intercambiar</button>
+                </div>
+            </div>
+
+            <!-- Prenda 5 -->
+            <div class="card">
+                <img src="Imagenes/Camiseta Marvel.jpg" alt="Camiseta Marvel Black Widow">
+               <div class="card-content">
+                    <h3 class="card-title">Camiseta Marvel Black Widow</h3>
+                    <div class="card-price">$100 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Camiseta de manga corta y cuello redondo</td></tr>
+                        <tr><th>Talla</th><td>Mediana</td></tr>
+                        <tr><th>Color</th><td>Negro Profundo</td></tr>
+                        <tr><th>Estado</th><td>Usado (Conserva la forma de cuello y talle, sin desgaste drástico en la gráfica)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Aceptado por tops básicos)</td></tr>
+                        <tr><th>Material</th><td>Mezcla de Lana Reciclada y Fibras Afieltradas Reutilizadas</td></tr>
+                        <tr><th>Detalles</th><td>Gráfica "STAY ON TASK" de Black Widow en rosa con licencia oficial Marvel</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                        <tr><th>Impacto</th><td>Reducción significativa de la huella de carbono al evitar el procesamiento y hilado industrial de lana virgen</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarPrenda('Camiseta Marvel Black Widow')">Solicitar / Intercambiar</button>
+                </div>
+            </div>
+
+            <!-- Prenda 6 -->
+            <div class="card">
+                <img src="Imagenes/Chaqueta.jpg" alt="Chaqueta granate">
+               <div class="card-content">
+                    <h3 class="card-title">Chaqueta Granate</h3>
+                    <div class="card-price">$250 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Chaqueta corta de solapa / Abrigo térmico estilo paño</td></tr>
+                        <tr><th>Talla</th><td>Mediana</td></tr>
+                        <tr><th>Color</th><td>Granate / Burdeos</td></tr>
+                        <tr><th>Estado</th><td>Muy Bueno (Textura de paño conservada, abotonadura completa)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por valor equivalente)</td></tr>
+                        <tr><th>Material</th><td>Mezcla de Lana Reciclada y Fibras Afieltradas Reutilizadas</td></tr>
+                        <tr><th>Detalles</th><td>Solapa estructural amplia, cierre de dos botones frontales a contraste y bolsillo lateral encintado</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                        <tr><th>Impacto</th><td>Desvía plásticos PET y reduce 70% consumo energético</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarPrenda('Sudadera Cuello Redondo Gris')">Solicitar / Intercambiar</button>
+                </div>
+            </div>
+
+        </div>
+            
+        <!-- FORMULARIO DE REALIZAR PEDIDO / INTERCAMBIO VÍA WHATSAPP -->
+        <div class="form-section" id="pedido">
+            <div class="center-wrapper">
+                <h2 class="section-title">Apartado de Pedidos e Intercambios</h2>
+            </div>
+
+            <form id="form-pedido" onsubmit="enviarPedidoWhatsApp(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre-comprador">Nombre Completo *</label>
+                        <input type="text" id="nombre-comprador" required placeholder="Tu nombre y apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="correo-comprador">Teléfono / WhatsApp *</label>
+                        <input type="text" id="correo-comprador" required placeholder="Tu número de WhatsApp">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prenda-seleccionada">Prenda de Interés *</label>
+                        <select id="prenda-seleccionada" required>
+                            <option value="">-- Selecciona una prenda --</option>
+                            <option value="Playera Azul Manga 3/4">Playera Azul Manga 3/4 ($130 MXN)</option>
+                            <option value="Crop Top Negro">Crop Top Negro ($110 MXN)</option>
+                            <option value="Sudadera Cuello Redondo Gris">Sudadera Cuello Redondo Gris ($170 MXN)</option>
+                            <option value="Camiseta de Tirantes Floral">Camiseta de Tirantes Floral ($80 MXN)</option>
+                            <option value="Camiseta Marvel Black Widow">Camiseta Marvel Black Widow ($100 MXN)</option>
+                            <option value="Chaqueta Granate">Chaqueta Granate ($250 MXN)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalidad">Modalidad de Adquisición *</label>
+                        <select id="modalidad" required onchange="evaluarModalidad(this.value)">
+                            <option value="Compra Directa">Compra Directa</option>
+                            <option value="Intercambio">Intercambio de Prenda Equivalentemente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="grupo-intercambio" style="display: none;">
+                    <label for="detalle-intercambio">Describe la prenda que ofreces para intercambio *</label>
+                    <textarea id="detalle-intercambio" rows="3" placeholder="Indica tipo de prenda, talla, estado y material sostenible..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="punto-entrega">Punto de Encuentro para Entrega *</label>
+                    <select id="punto-entrega" required>
+                        <option value="UAEMex - Facultad de Contaduría y Administración">Punto Universitario UAEMéx (Facultad de Contaduría/Administración)</option>
+                        <option value="UAEMex - Ciudad Universitaria">Punto Universitario UAEMéx (Edificio Central / Rectoría)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp">Enviar Pedido por WhatsApp</button>
+            </form>
+        </div>
+
+        <!-- FORMULARIO DE SUMARSE / DONAR VÍA WHATSAPP -->
+        <div class="form-section" id="unete">
+            <div class="center-wrapper">
+                <h2 class="section-title">Sumarse al Bazar (Donación o Catálogo)</h2>
+            </div>
+            
+            <p style="text-align: center; margin-bottom: 1.5rem;">¿Tienes ropa que en excelente estado que ya no usas y quieres darle una segunda vida? ¡Súmate a la comunidad de ReMuda!</p>
+
+            <form id="form-donacion" onsubmit="enviarDonacionWhatsApp(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre-donante">Nombre del Colaborador / Donante / *</label>
+                        <input type="text" id="nombre-donante" required placeholder="Tu nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="contacto-donante">Teléfono de Contacto *</label>
+                        <input type="text" id="contacto-donante" required placeholder="Tu número de contacto">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipo-contribucion">Tipo de Participación *</label>
+                        <select id="tipo-contribucion" required>
+                            <option value="Donación Altruista">Donación Altruista de Prenda </option>
+                            <option value="Consignación">Poner a la Venta / Consignación en el Bazar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="prenda-nombre">Nombre / Tipo de Prenda *</label>
+                        <input type="text" id="prenda-nombre" required placeholder="Ej. Chaqueta de mezclilla reciclada">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prenda-talla">Talla *</label>
+                        <input type="text" id="prenda-talla" required placeholder="Ej. Chica / Mediana / Grande">
+                    </div>
+                    <div class="form-group">
+                        <label for="prenda-composicion">Composición / Valor Sostenible *</label>
+                        <input type="text" id="prenda-composicion" required placeholder="Ej. 100% Algodón orgánico, PET reciclado, etc.">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="prenda-estado">Estado de Conservación y Detalles</label>
+                    <textarea id="prenda-estado" rows="3" placeholder="Describe el estado de la prenda, acabados, teñido o marcas particulares..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp">Enviar Propuesta por WhatsApp</button>
+            </form>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ReMuda - Red Universitaria de Consumo Responsable. Toluca, Estado de México.</p>
+    </footer>
+
+    <script>
+        const numeroWhatsApp = "525532887835";
+
+        function seleccionarPrenda(nombrePrenda) {
+            const select = document.getElementById('prenda-seleccionada');
+            select.value = nombrePrenda;
+            document.getElementById('pedido').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function evaluarModalidad(valor) {
+            const grupoIntercambio = document.getElementById('grupo-intercambio');
+            const campoTexto = document.getElementById('detalle-intercambio');
+            if (valor === 'Intercambio') {
+                grupoIntercambio.style.display = 'block';
+                campoTexto.setAttribute('required', 'required');
+            } else {
+                grupoIntercambio.style.display = 'none';
+                campoTexto.removeAttribute('required');
+            }
+        }
+
+        function enviarPedidoWhatsApp(event) {
+            event.preventDefault();
+            
+            const nombre = document.getElementById('nombre-comprador').value;
+            const contacto = document.getElementById('correo-comprador').value;
+            const prenda = document.getElementById('prenda-seleccionada').value;
+            const modalidad = document.getElementById('modalidad').value;
+            const punto = document.getElementById('punto-entrega').value;
+            const intercambio = document.getElementById('detalle-intercambio').value;
+
+            let mensaje = `*NUEVO PEDIDO / SOLICITUD - REMUDA SOSTENIBLE*%0A%0A`;
+            mensaje += `👤 *Nombre:* ${nombre}%0A`;
+            mensaje += `📞 *Contacto:* ${contacto}%0A`;
+            mensaje += `👕 *Prenda:* ${prenda}%0A`;
+            mensaje += `🔄 *Modalidad:* ${modalidad}%0A`;
+            
+            if (modalidad === 'Intercambio' && intercambio) {
+                mensaje += `📦 *Prenda ofrecida:* ${intercambio}%0A`;
+            }
+
+            mensaje += `📍 *Punto de Encuentro:* ${punto}`;
+
+            window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
+        }
+
+        function enviarDonacionWhatsApp(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('nombre-donante').value;
+            const contacto = document.getElementById('contacto-donante').value;
+            const tipo = document.getElementById('tipo-contribucion').value;
+            const prenda = document.getElementById('prenda-nombre').value;
+            const talla = document.getElementById('prenda-talla').value;
+            const composicion = document.getElementById('prenda-composicion').value;
+            const estado = document.getElementById('prenda-estado').value;
+
+            let mensaje = `*NUEVA PROPUESTA DE PRENDA / DONACIÓN - REMUDA SOSTENIBLE*%0A%0A`;
+            mensaje += `👤 *Colaborador:* ${nombre}%0A`;
+            mensaje += `📞 *Contacto:* ${contacto}%0A`;
+            mensaje += `🤝 *Tipo de Participación:* ${tipo}%0A`;
+            mensaje += `👕 *Prenda:* ${prenda}%0A`;
+            mensaje += `📏 *Talla:* ${talla}%0A`;
+            mensaje += `🌱 *Composición:* ${composicion}%0A`;
+            
+            if (estado) {
+                mensaje += `📝 *Estado/Detalles:* ${estado}`;
+            }
+
+            window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
+        }
+    </script>
+</body>
+</html>
+
