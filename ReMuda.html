@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReMuda - Bazar Universitario</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --primary-hover: #335384;
+            --whatsapp-color: #25D366;
+            --whatsapp-hover: #1da851;
+            --bg-overlay: rgba(244, 246, 249, 0.94);
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #98c1d9;
+            --highlight-color: #e63946;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* Fondo con patrón temático visual de ropa */
+            background-color: #f4f6f9;
+            background-image: radial-gradient(#4a6fa5 0.75px, transparent 0.75px), radial-gradient(#4a6fa5 0.75px, #f4f6f9 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            /* Cambiamos el color por la imagen con un filtro oscuro encima para mantener la legibilidad */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('imagenes/FONDO.jpeg'); 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        nav {
+            background-color: var(--primary-hover);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            padding: 0.9rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            font-size: 2rem;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .center-wrapper {
+            text-align: center;
+        }
+
+        /* Catálogo */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e1e8ed;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            background-color: #e0e0e0;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--highlight-color);
+            margin-bottom: 1rem;
+        }
+
+        .tech-sheet {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-sheet th, .tech-sheet td {
+            border: 1px solid #e0e0e0;
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        .tech-sheet th {
+            background-color: #f0f4f8;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: auto;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp-color);
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: var(--whatsapp-hover);
+        }
+
+        /* Secciones de Formulario y Políticas */
+        .content-box {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
+            border: 1px solid #e1e8ed;
+        }
+
+        .policy-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .policy-list li {
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .policy-list strong {
+            color: var(--primary-hover);
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .info-note {
+            background-color: #eef6ff;
+            border: 1px solid #b6d4fe;
+            color: #084298;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background-color: var(--primary-hover);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ReMuda</h1>
+        <p>La Pieza que te Faltaba</p>
+    </header>
+
+    <nav>
+        <a href="#catalogo-prendas">Catalogo De Prendas</a>
+        <a href="#catalogo-accesorios">Catalogo De Accesorios</a>
+        <a href="#politicas">Políticas de Participación</a>
+        <a href="#vender y donar">Unete a ReMuda</a>
+        <a href="#pedido">Realizar Pedido</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- CATÁLOGO DE ROPA -->
+        <div class="center-wrapper">
+            <h2 id="catalogo-prendas" class="section-title">Catálogo de Prendas</h2>
+        </div>
+
+        <div class="catalog">
+
+            <!-- Prenda 1 -->
+            <div class="card">
+                <img src="Imagenes/Chamarra de Cuero.jpeg" alt="Chamarra de Piel Café">
+                <div class="card-content">
+                    <h3 class="card-title">Chamarra de Piel Café</h3>
+                    <div class="card-price">$190 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Chamarra / Chaqueta de Piel (Cuero)</td></tr>
+                        <tr><th>Talla</th><td>Mediana / Grande (Corte clásico)</td></tr>
+                        <tr><th>Color</th><td>Café Oscuro</td></tr>
+                        <tr><th>Estado</th><td>Excelente (Sin desgastes, cierre funcional)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por prenda o accesorio equivalente)</td></tr>
+                        <tr><th>Material</th><td>100% Piel/Cuero</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Chamarra de Piel Café')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Prenda 2 -->
+            <div class="card">
+                <img src="Imagenes/Playera.jpeg" alt="Playera Guinda">                                  
+                       <div class="card-content">
+                    <h3 class="card-title">Playera Guinda</h3>
+                    <div class="card-price">$110 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Camiseta estampada</td></tr>
+                        <tr><th>Talla</th><td>Extra Grande(Corte Holgado/Oversize)</td></tr>
+                        <tr><th>Color</th><td>Vino</td></tr>
+                        <tr><th>Estado</th><td>Excelente(Sin manchas ni desgate en el estampado)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí(Por prenda o accesorios equivalentes)</td></tr>
+                        <tr><th>Material</th><td>100% Algodón</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Playera Guinda')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Prenda 3 -->
+            <div class="card">
+                <img src="Imagenes/Pans Azul.jpeg" alt="Pans Deportivo">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Pans Deportivo</h3>
+                    <div class="card-price">$180 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Pans Deportivo</td></tr>
+                        <tr><th>Talla</th><td>Mediano</td></tr>
+                        <tr><th>Color</th><td>Azul Marino con Franjas Blancas</td></tr>
+                        <tr><th>Estado</th><td>Muy Bueno (Cuidado conservado)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por prenda equivalente)</td></tr>
+                        <tr><th>Material</th><td>Nylon / Poliéster</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Pans Deportivo')">Solicitar / Comprar</button>
+                </div>
+            </div>
+ 
+            <!-- Prenda 4 -->
+            <div class="card">
+                <img src="Imagenes/Playera rayas.jpeg" alt="Playera Manga Larga">                                  
+                       <div class="card-content">
+                    <h3 class="card-title">Playera Manga Larga</h3>
+                    <div class="card-price">$100 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Playera Manga Larga</td></tr>
+                        <tr><th>Talla</th><td>Grande(Corte Holgado)</td></tr>
+                        <tr><th>Color</th><td>Negro,Gris,Blanco(A rayas)</td></tr>
+                        <tr><th>Estado</th><td>Excelente(Sin manchas ni desgate)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí(Por prenda o accesorios equivalentes)</td></tr>
+                        <tr><th>Material</th><td>100% Algodón</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Playera Guinda')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Prenda 5 -->
+            <div class="card">
+                <img src="Imagenes/Sudadera Negra.jpeg" alt="Sudadera Negra con Cierre">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Sudadera Negra con Cierre</h3>
+                    <div class="card-price">$190 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Sudadera con Capucha y Cierre(Hoodie)</td></tr>
+                        <tr><th>Talla</th><td>Mediana</td></tr>
+                        <tr><th>Color</th><td>Negro</td></tr>
+                        <tr><th>Estado</th><td>Bueno(Cuidado conservado)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí(Por prenda equivalente)</td></tr>
+                        <tr><th>Material</th><td>Algodón/ Poliéster</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Sudadera Negra con Cierre')">Solicitar / Comprar</button>
+                </div>
+            </div>
+            <!-- Prenda 6 -->
+            <div class="card">
+                <img src="Imagenes/Sudadera Cafe.jpeg" alt="Sudadera Café Oversize">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Sudadera Café Oversize</h3>
+                    <div class="card-price">$170 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Sudadera Cerrada con Capucha</td></tr>
+                        <tr><th>Talla</th><td>Extra Grande</td></tr>
+                        <tr><th>Color</th><td>Café/Marrón</td></tr>
+                        <tr><th>Estado</th><td>Muy Bueno (Cuidado conservado)</td></tr>
+                        <tr><th>Intercambio</th><td>Sí (Por prenda equivalente)</td></tr>
+                        <tr><th>Material</th><td>Algodón / Poliéster con interior afelpado</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Sudadera Café Oversize')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CATÁLOGO DE ACCESORIOS -->
+        <div class="center-wrapper">
+            <h2 id="catalogo-accesorios" class="section-title">Catálogo de Accesorios</h2>
+        </div>
+
+        <div class="catalog">
+
+            <!-- Accesorio 1 -->
+            <div class="card">
+                <img src="Imagenes/Lentes.jpeg" alt="Lentes de Sol">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Lentes de Sol</h3>
+                    <div class="card-price">$100 MXN</div>
+
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Lentes de Sol / Gafas Casuales</td></tr>
+                        <tr><th>Color</th><td>Café Carey / Micas Obscuras</td></tr>
+                        <tr><th>Estado</th><td>Excelente (Sin rayones)</td></tr>
+                        <tr><th>Detalles</th><td>Armazón ovalado, estilo vintage y micas con protección UV</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Lentes de Sol')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Accesorio 2 -->
+            <div class="card">
+                <img src="Imagenes/Pinza.jpeg" alt="Pinza para el Cabello">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Pinza para el Cabello</h3>
+                    <div class="card-price">$30 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Pinza para el Cabello</td></tr>
+                        <tr><th>Color</th><td>Café Obscuero</td></tr>
+                        <tr><th>Estado</th><td>Bien(Muelle y Diente Intactos)</td></tr>
+                        <tr><th>Detalles</th><td>Diseño calado de Filigrana con buen Agarre para Cabello Abundante</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Pinza para el Cabello')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Accesorio 3 -->
+            <div class="card">
+                <img src="Imagenes/Collar.jpeg" alt="Collar">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Collar con dije de Cisne</h3>
+                    <div class="card-price">$50 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Collar / Cadena con Dije</td></tr>
+                        <tr><th>Color</th><td>Dorado</td></tr>
+                        <tr><th>Estado</th><td>Bueno (Acabados intactos/Semi nuevo)</td></tr>
+                        <tr><th>Detalles</th><td>Cadena delgada con dije de cisne</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Collar con dije de Cisne')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Accesorio 4 -->
+            <div class="card">
+                <img src="Imagenes/Pulcera.jpeg" alt="Pulcera">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Pulcera</h3>
+                    <div class="card-price">$25 MXN</div>
+
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Accesorio / Pulcera Artesanal</td></tr>
+                        <tr><th>Color</th><td>Multicolor</td></tr>
+                        <tr><th>Estado</th><td>Excelente (Hilos y Dijes Intactos)</td></tr>
+                        <tr><th>Detalles</th><td>Cierre con nuedo corredizo ajustable y dijes de manzana, estrella y botones</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Pulcera')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Accesorio 5 -->
+            <div class="card">
+                 <img src="Imagenes/Broches.jpeg" alt="Peinetas">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Peinetas de Abeja y Flor</h3>
+                    <div class="card-price">$30 MXN</div>
+                   
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Peinetas Decorativas</td></tr>
+                        <tr><th>Color</th><td>Dorado con detalles en rosa pastel y azul</td></tr>
+                        <tr><th>Estado</th><td>Todo esta bien ningun rasguño ni decoloración dec</td></tr>
+                        <tr><th>Detalles</th><td>Set de 2 peinetas metalicas</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Peinetas de Abeja y Flor')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+            <!-- Accesorio 6 -->
+            <div class="card">
+                <img src="Imagenes/Aretes.jpeg" alt="Aretes">                                 
+                       <div class="card-content">
+                    <h3 class="card-title">Aretes</h3>
+                    <div class="card-price">$35 MXN</div>
+                    
+                    <table class="tech-sheet">
+                        <tr><th>Tipo</th><td>Aretes Colgantes</td></tr>
+                        <tr><th>Color</th><td>Bronce con cuentas ambar</td></tr>
+                        <tr><th>Estado</th><td>Como Nueva (Sin detalles)</td></tr>
+                        <tr><th>Detalles</th><td>Diseño Asimétrico con dijes de sol y luna creciente</td></tr>
+                        <tr><th>Entrega</th><td>Punto de encuentro universitario (UAEMéx)</td></tr>
+                    </table>
+
+                    <button class="btn" onclick="seleccionarArticulo('Aretes Colgantes')">Solicitar / Comprar</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- POLÍTICAS DE PARTICIPACIÓN -->
+        <div class="content-box" id="politicas">
+            <div class="center-wrapper">
+                <h2 class="section-title">Políticas de Participación y Calidad</h2>
+            </div>
+
+            <ul class="policy-list">
+                <li>
+                    <strong>1. Criterio de Estado y Calidad (Ropa y Accesorios):</strong> Aceptamos prendas de vestir y accesorios de segunda mano en excelentes condiciones o seminuevos (calificación mínima 8/10). Unicamente se admitirán artículos con defectos mínimos si estos son sencillos de reparar o componer (por ejemplo, un botón flojo que se pueda coser); de lo contrario, si el desgaste o daño es grave o irreparable, la prenda no será aceptada.
+                </li>
+                <li>
+                    <strong>2. Artículos Restingidos por Hiegene y Salud:</strong> Por razones estrictas de salubridad y para evitar riesgos de infección, no se aceptan bajo ninguna circunstancia:
+  Ropa interior o íntima (calzones, bóxers, sujetadores/brasieres, ropa de dormir íntima).
+  Trajes de baño o ropa de playa usada.
+  Calcetas, calcetines y mallas usadas.
+  Aretes, piercings o accesorios de perforación de segunda mano (a menos que sean completamente nuevos en su empaque sellado original).                                      
+                </li>
+                <li>
+                    <strong>3. Higiene y Sanitización Indispensable:</strong> Toda prenda o accesorio destinado a venta, donación o intercambio debe entregarse impecablemente limpio, previamente lavado y desinfectado/sanitizado. Los artículos deben estar completamente libres de olores corporales, humedad, restos de perfume o pelo de mascota.
+                </li>
+                <li>
+                    <strong>4. Verificación de Autenticidad y Estado:</strong> Si deseas vendernos, donarnos o consignar tus artículos, debes enviar fotos o video de alta claridad donde se observen las costuras, etiquetas, cuellos, axilas y vistas generales que comprueben el estado impecable anunciado.
+                </li>
+                <li>
+                    <strong>5. Puntos de Entrega Seguros:</strong> Las entregas, intercambios y recepciones de artículos se efectúan únicamente en los puntos de encuentro universitarios autorizados (UAEMéx) para garantizar la seguridad de ambas partes.
+                </li>
+                <li>
+                    <strong>6. Modalidades de Compra e Intercambio:</strong> Puedes adquirir artículos mediante compra directa o proponer intercambios de valor equivalente, siempre sujeto a previa revisión de la prenda recibida.
+                </li>
+            </ul>
+        </div>
+
+        <!-- FORMULARIO: QUIERO VENDER / CONSIGNAR MI ROPA -->
+        <div class="content-box" id="vender y donar">
+            <div class="center-wrapper">
+                <h2 class="section-title">¿Quieres Vendernos tu Ropa o Accesorios?</h2>
+            </div>
+            
+            <p style="text-align: center; margin-bottom: 1.5rem;">Si tienes prendas o accesorios en excelentes condiciones que ya no usas, ¡nosotros te ayudamos a venderlos! Revisa nuestras políticas y envíanos tu propuesta con evidencias del estado.</p>
+
+            <div class="info-note">
+                📸 <strong>Verificación requerida:</strong> Para validar que tu ropa/accesorio esté en buenas condiciones, debes adjuntar un enlace a tus fotos (Google Drive, Dropbox, iCloud) o enviárnoslas directamente por WhatsApp al presionar el botón de envío.
+            </div>
+
+            <form id="form-vender" onsubmit="enviarVentaWhatsApp(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="vendedor-nombre">Nombre Completo *</label>
+                        <input type="text" id="vendedor-nombre" required placeholder="Tu nombre y apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="vendedor-contacto">Teléfono / WhatsApp *</label>
+                        <input type="text" id="vendedor-contacto" required placeholder="Tu número de contacto">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articulo-tipo">Tipo de Artículo *</label>
+                        <select id="articulo-tipo" required>
+                            <option value="Prenda de Ropa">Prenda de Ropa</option>
+                            <option value="Accesorio">Accesorio (Bolso, bufanda, cinturón, etc.)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="articulo-nombre">Nombre / Descripción del Artículo *</label>
+                        <input type="text" id="articulo-nombre" required placeholder="Ej. Chaqueta de mezclilla, Bolso negro de piel">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articulo-talla">Talla / Medidas *</label>
+                        <input type="text" id="articulo-talla" required placeholder="Ej. Chica, Mediana, Ajustable">
+                    </div>
+                    <div class="form-group">
+                        <label for="articulo-precio">Precio Estimado o Pretendido ($ MXN) *</label>
+                        <input type="number" id="articulo-precio" required placeholder="Ej. 120">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="articulo-estado">Descripción Detallada del Estado *</label>
+                    <textarea id="articulo-estado" rows="3" required placeholder="Confirma que no tiene manchas, roturas ni desgastes y menciona detalles del uso..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="articulo-fotos">Enlace a Fotografías / Evidencias (Drive, iCloud, Imgur, etc.)</label>
+                    <input type="url" id="articulo-fotos" placeholder="https://drive.google.com/... (O puedes adjuntarlas directo por WhatsApp)">
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp">Enviar Propuesta de Venta por WhatsApp</button>
+            </form>
+        </div>
+
+        <!-- FORMULARIO DE SUMARSE / DONAR VÍA WHATSAPP -->
+        <div class="form-section" id="vender y donar">
+            <div class="center-wrapper">
+                <h2 class="section-title">Sumarse al Bazar (Donación o Catálogo)</h2>
+            </div>
+            
+            <p style="text-align: center; margin-bottom: 1.5rem;">¿Tienes ropa o accesorios en excelente estado que ya no usas y quieres darle una segunda vida? ¡Súmate a la comunidad de ReMuda!</p>
+
+ <div class="info-note">
+                📸 <strong>Verificación requerida:</strong> Para validar que tu ropa/accesorio esté en buenas condiciones, debes adjuntar un enlace a tus fotos (Google Drive, Dropbox, iCloud) o enviárnoslas directamente por WhatsApp al presionar el botón de envío.
+            </div>
+           
+            <form id="form-donacion" onsubmit="enviarDonacionWhatsApp(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="vendedor-nombre">Nombre Completo del colaborador o Donante*</label>
+                        <input type="text" id="vendedor-nombre" required placeholder="Tu nombre y apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="vendedor-contacto">Teléfono / WhatsApp *</label>
+                        <input type="text" id="vendedor-contacto" required placeholder="Tu número de contacto">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articulo-tipo">Tipo de Artículo *</label>
+                        <select id="articulo-tipo" required>
+                            <option value="Prenda de Ropa">Prenda de Ropa</option>
+                            <option value="Accesorio">Accesorio (Bolso, bufanda, cinturón, etc.)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="articulo-nombre">Nombre / Descripción del Artículo *</label>
+                        <input type="text" id="articulo-nombre" required placeholder="Ej. Chaqueta de mezclilla, Bolso negro de piel">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articulo-talla">Talla / Medidas *</label>
+                        <input type="text" id="articulo-talla" required placeholder="Ej. Chica, Mediana, Ajustable">
+                    </div>
+                    <div class="form-group">
+                        <label for="articulo-precio">Precio Estimado o Pretendido ($ MXN) *</label>
+                        <input type="number" id="articulo-precio" required placeholder="Ej. 120">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="articulo-estado">Descripción Detallada del Estado *</label>
+                    <textarea id="articulo-estado" rows="3" required placeholder="Confirma que no tiene manchas, roturas ni desgastes y menciona detalles del uso..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="articulo-fotos">Enlace a Fotografías / Evidencias (Drive, iCloud, Imgur, etc.)</label>
+                    <input type="url" id="articulo-fotos" placeholder="https://drive.google.com/... (O puedes adjuntarlas directo por WhatsApp)">
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp">Enviar Propuesta de Venta por WhatsApp</button>
+            </form>
+        </div>
+
+        <!-- FORMULARIO DE PEDIDO / COMPRA -->
+        <div class="content-box" id="pedido">
+            <div class="center-wrapper">
+                <h2 class="section-title">Apartado de Pedidos e Intercambios</h2>
+            </div>
+
+            <form id="form-pedido" onsubmit="enviarPedidoWhatsApp(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre-comprador">Nombre Completo *</label>
+                        <input type="text" id="nombre-comprador" required placeholder="Tu nombre y apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="correo-comprador">Teléfono / WhatsApp *</label>
+                        <input type="text" id="correo-comprador" required placeholder="Tu número de WhatsApp">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prenda-seleccionada">Artículo de Interés *</label>
+                        <select id="prenda-seleccionada" required>
+                            <option value="">-- Selecciona un artículo --</option>
+                            <optgroup label="Ropa">
+                                <option value="Playera Azul Manga 3/4">Playera Azul Manga 3/4 ($130 MXN)</option>
+                                <option value="Crop Top Negro">Crop Top Negro ($110 MXN)</option>
+                                <option value="Sudadera Cuello Redondo Gris">Sudadera Cuello Redondo Gris ($170 MXN)</option>
+                            </optgroup>
+                            <optgroup label="Accesorios">
+                                <option value="Bolso de Mano Casual">Bolso de Mano Casual ($120 MXN)</option>
+                                <option value="Bufanda Tejida Elegante">Bufanda Tejida Elegante ($80 MXN)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalidad">Modalidad de Adquisición *</label>
+                        <select id="modalidad" required onchange="evaluarModalidad(this.value)">
+                            <option value="Compra Directa">Compra Directa</option>
+                            <option value="Intercambio">Intercambio de Prenda/Accesorio Equivalente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="grupo-intercambio" style="display: none;">
+                    <label for="detalle-intercambio">Describe el artículo que ofreces para intercambio *</label>
+                    <textarea id="detalle-intercambio" rows="3" placeholder="Indica tipo de artículo, talla/medida y estado de conservación..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="punto-entrega">Punto de Encuentro Universitario *</label>
+                    <select id="punto-entrega" required>
+                        <option value="UAEMex - Facultad de Contaduría y Administración">Punto Universitario UAEMéx (Facultad de Contaduría/Administración)</option>
+                        <option value="UAEMex - Ciudad Universitaria">Punto Universitario UAEMéx (Edificio Central / Rectoría)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp">Enviar Pedido por WhatsApp</button>
+            </form>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ReMuda - Bazar Universitario de Ropa y Accesorios en Buenas Condiciones. Toluca, Estado de México.</p>
+    </footer>
+
+    <script>
+        const numeroWhatsApp = "525532887835";
+
+        function seleccionarArticulo(nombreArticulo) {
+            const select = document.getElementById('prenda-seleccionada');
+            select.value = nombreArticulo;
+            document.getElementById('pedido').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function evaluarModalidad(valor) {
+            const grupoIntercambio = document.getElementById('grupo-intercambio');
+            const campoTexto = document.getElementById('detalle-intercambio');
+            if (valor === 'Intercambio') {
+                grupoIntercambio.style.display = 'block';
+                campoTexto.setAttribute('required', 'required');
+            } else {
+                grupoIntercambio.style.display = 'none';
+                campoTexto.removeAttribute('required');
+            }
+        }
+
+        function enviarPedidoWhatsApp(event) {
+            event.preventDefault();
+            
+            const nombre = document.getElementById('nombre-comprador').value;
+            const contacto = document.getElementById('correo-comprador').value;
+            const prenda = document.getElementById('prenda-seleccionada').value;
+            const modalidad = document.getElementById('modalidad').value;
+            const punto = document.getElementById('punto-entrega').value;
+            const intercambio = document.getElementById('detalle-intercambio').value;
+
+            let mensaje = `*NUEVO PEDIDO / SOLICITUD - REMUDA*%0A%0A`;
+            mensaje += `👤 *Nombre:* ${nombre}%0A`;
+            mensaje += `📞 *Contacto:* ${contacto}%0A`;
+            mensaje += `🛍️ *Artículo:* ${prenda}%0A`;
+            mensaje += `🔄 *Modalidad:* ${modalidad}%0A`;
+            
+            if (modalidad === 'Intercambio' && intercambio) {
+                mensaje += `📦 *Artículo ofrecido:* ${intercambio}%0A`;
+            }
+
+            mensaje += `📍 *Punto de Encuentro:* ${punto}`;
+
+            window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
+        }
+
+        function enviarDonacionWhatsApp(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('nombre-donante').value;
+            const contacto = document.getElementById('donante-contacto').value;
+            const tipo = document.getElementById('prenda o articulo-tipo').value;
+            const prenda = document.getElementById('prenda o articulo-nombre').value;
+            const talla = document.getElementById('prenda o articulo-talla').value;
+            const precio = document.getElementById('prenda o articulo-precio').value;
+            const estado = document.getElementById('prenda o articulo-estado').value;
+            const fotos = document.getElementById('Prenda o articulo-fotos').value;
+
+            let mensaje = `*PROPUESTA DE DONACIÓN DE PRENDAS Y ACCESORIOS - REMUDA*%0A%0A`;
+            mensaje += `👤 *Colaborador:* ${nombre}%0A`;
+            mensaje += `📞 *Contacto:* ${contacto}%0A`;
+            mensaje += `🤝 *Tipo de Participación:* ${tipo}%0A`;
+            mensaje += `👕 *Prenda:* ${prenda}%0A`;
+            mensaje += `👕 *Artículo:* ${articulo}%0A`;
+            mensaje += `📏 *Talla/Medida:* ${talla}%0A`;
+            mensaje += `🌱 *Composición:* ${composicion}%0A`;
+            mensaje += `💰 *Precio pretendido:* $${precio} MXN%0A`;
+            mensaje += `📝 *Estado/Detalles:* ${estado}%0A`;
+            
+            if (fotos) {
+                mensaje += `🖼️ *Fotos/Evidencias:* ${fotos}%0A`;
+            } else {
+                mensaje += `🖼️ *Fotos:* (Se adjuntarán directamente por la conversación)%0A`;
+            }
+
+            window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
+        }
+
+        function enviarVentaWhatsApp(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('vendedor-nombre').value;
+            const contacto = document.getElementById('vendedor-contacto').value;
+            const tipo = document.getElementById('articulo-tipo').value;
+            const articulo = document.getElementById('articulo-nombre').value;
+            const talla = document.getElementById('articulo-talla').value;
+            const precio = document.getElementById('articulo-precio').value;
+            const estado = document.getElementById('articulo-estado').value;
+            const fotos = document.getElementById('articulo-fotos').value;
+
+            let mensaje = `*PROPUESTA DE VENTA DE PRENDAS Y ACCESORIO - REMUDA*%0A%0A`;
+            mensaje += `👤 *Vendedor:* ${nombre}%0A`;
+            mensaje += `📞 *Contacto:* ${contacto}%0A`;
+            mensaje += `🏷️ *Categoría:* ${tipo}%0A`;
+            mensaje += `👕 *Artículo:* ${articulo}%0A`;
+            mensaje += `👕 *Prenda:* ${prenda}%0A`;
+            mensaje += `📏 *Talla/Medida:* ${talla}%0A`;
+            mensaje += `💰 *Precio pretendido:* $${precio} MXN%0A`;
+            mensaje += `📝 *Estado/Detalles:* ${estado}%0A`;
+            
+            if (fotos) {
+                mensaje += `🖼️ *Fotos/Evidencias:* ${fotos}%0A`;
+            } else {
+                mensaje += `🖼️ *Fotos:* (Se adjuntarán directamente por la conversación)%0A`;
+            }
+
+            window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
+        }
+    </script>
+</body>
+</html>
