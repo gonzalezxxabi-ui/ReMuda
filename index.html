@@ -127,13 +127,14 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
+        }       
 
         .card img {
             width: 100%;
-            height: 260px;
-            object-fit: cover;
-            background-color: #e0e0e0;
+            height: 200px; /* Reduces la altura para que no ocupe tanto espacio */
+            object-fit: contain; /* Muestra la imagen COMPLETA sin recortarla */
+            background-color: #f8fafc; /* Fondo neutro para los bordes si sobra espacio */
+            padding: 8px; /* Opcional: le da un pequeño margen interior elegante */
         }
 
         .card-content {
